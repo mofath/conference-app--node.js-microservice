@@ -2,22 +2,21 @@
   "name": "node.js-microservice",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mofath/node.js-microservice.git"
+    "start": "node bin/run | bunyan"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mofath/node.js-microservice/issues"
-  },
-  "homepage": "https://github.com/mofath/node.js-microservice#readme",
   "dependencies": {
-    "bunyan": "^1.8.15"
+    "bunyan": "^1.8.12",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.1",
+    "eslint": "^5.14.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0"
   }
 }
