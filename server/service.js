@@ -22,7 +22,10 @@ module.exports = (config) => {
   });
 
   service.delete('/register/:servicename/:serviceversion/:serviceport', (req, res, next) => {
-    return next(`Not implemented`);
+    const { servicename, serviceversion, serviceport } = req.params;
+    const serviceip = req.connection.remoteAddress.includes('::') ? `[${req.connection.remoteAddress}]` : `${req.connection.remoteAddress}`;
+    const serviceKey = serviceRegistry.unregister(servicename, serviceversion, serviceport, serviceip);
+    return res.json({ result: serviceKey });
   });
 
   service.get('/find/:servicename/:serviceversion', (req, res, next) => {
