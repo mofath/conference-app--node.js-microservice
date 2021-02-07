@@ -42,6 +42,6 @@ server.on("listening", () => {
   });
 
   log.info(
-    `Server is listening on port ${server.address().port}`
+    `Speaker service is listening on port ${server.address().port}`
   );
 });
