@@ -3,19 +3,23 @@
 /**
  * Module dependencies.
  */
+const axios = require('axios');
 const http = require("http");
-const config = require("../config")[process.env.NODE_ENV || "development"];
 
+const config = require("../config")[process.env.NODE_ENV || "development"];
 const log = config.log();
 const service = require("../server/service")(config);
 
 const server = http.createServer(service);
 
 // Important - a service should not have a fixed port but should randomly choose one
-server.listen(process.env.PORT || 3000);
+server.listen(0);
 
 server.on("listening", () => {
+  const registerService = () => axios.put(`http://localhost:3000/register/${config.name}/${config.version}/${server.address().port}`)
+  registerService()
+  const interval = setInterval(registerService, 20000)
   log.info(
-    `Server is listening on port ${server.address().port} in ${service.get("env")} mode.`
+    `Server is listening on port ${server.address().port}`
   );
 });
