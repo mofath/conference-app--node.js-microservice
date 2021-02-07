@@ -38,10 +38,7 @@ class SpeakersService {
   async getAllArtwork() {
     const data = await this.getData();
     const artwork = data.reduce((acc, elm) => {
-      if (elm.artwork) {
-        // eslint-disable-next-line no-param-reassign
-        acc = [...acc, ...elm.artwork];
-      }
+      if (elm.artwork) acc = [...acc, ...elm.artwork];
       return acc;
     }, []);
     return artwork;
