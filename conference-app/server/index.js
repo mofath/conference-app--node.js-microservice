@@ -1,20 +1,22 @@
-const express = require("express");
-const createError = require("http-errors");
-const bodyParser = require("body-parser");
-const configs = require("./config");
-const Speakers = require("./services/Speakers");
-const routes = require("./routes");
+const express = require('express');
+const createError = require('http-errors');
+const bodyParser = require('body-parser');
+const configs = require('./config');
+const Speakers = require('./services/Speakers');
+const routes = require('./routes');
 
 const app = express();
 
-const config = configs[app.get("env")];
+const config = configs[app.get('env')];
 
 const speakers = new Speakers(config);
 
-if (app.get("env") === "development") app.locals.pretty = true;
+if (app.get('env') === 'development') app.locals.pretty = true;
+
 app.locals.title = config.sitename;
 
-app.use(express.static("public"));
+app.use(express.static('public'));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(async (req, res, next) => {
@@ -38,7 +40,7 @@ app.use((err, req, res, next) => {
   res.locals.status = status;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.status(status);
-  return res.send(err);
+  return res.json(err);
 });
 
 app.listen(3080, () => console.log('Conference app is listening on port 3080'));
