@@ -1,8 +1,8 @@
-const express = require("express");
+const express = require('express');
 
 const service = express();
 
-const Speakers = require("./lib/Speakers");
+const Speakers = require('./lib/Speakers');
 
 module.exports = (config) => {
   const log = config.log();
@@ -10,14 +10,14 @@ module.exports = (config) => {
   const speakers = new Speakers(config.data.speakers);
 
   // Add a request logging middleware in development mode
-  if (service.get("env") === "development") {
+  if (service.get('env') === 'development') {
     service.use((req, res, next) => {
       log.debug(`${req.method}: ${req.url}`);
       return next();
     });
   }
 
-  service.get("/list", async (req, res, next) => {
+  service.get('/list', async (req, res, next) => {
     try {
       return res.json(await speakers.getList());
     } catch (err) {
@@ -25,7 +25,7 @@ module.exports = (config) => {
     }
   });
 
-  service.get("/list-short", async (req, res, next) => {
+  service.get('/list-short', async (req, res, next) => {
     try {
       return res.json(await speakers.getListShort());
     } catch (err) {
@@ -33,7 +33,7 @@ module.exports = (config) => {
     }
   });
 
-  service.get("/names", async (req, res, next) => {
+  service.get('/names', async (req, res, next) => {
     try {
       return res.json(await speakers.getNames());
     } catch (err) {
@@ -41,7 +41,7 @@ module.exports = (config) => {
     }
   });
 
-  service.get("/artwork", async (req, res, next) => {
+  service.get('/artwork', async (req, res, next) => {
     try {
       return res.json(await speakers.getAllArtwork());
     } catch (err) {
@@ -49,7 +49,7 @@ module.exports = (config) => {
     }
   });
 
-  service.get("/speaker/:shortname", async (req, res, next) => {
+  service.get('/speaker/:shortname', async (req, res, next) => {
     try {
       return res.json(await speakers.getSpeaker(req.params.shortname));
     } catch (err) {
@@ -57,18 +57,18 @@ module.exports = (config) => {
     }
   });
 
-  service.get("/artwork/:shortname", async (req, res, next) => {
+  service.get('/artwork/:shortname', async (req, res, next) => {
     try {
-      return res.json(
-        await speakers.getArtworkForSpeaker(req.params.shortname)
-      );
+      return res.json(await speakers.getArtworkForSpeaker(req.params.shortname));
     } catch (err) {
       return next(err);
     }
   });
 
+  // eslint-disable-next-line no-unused-vars
   service.use((error, req, res, next) => {
     res.status(error.status || 500);
+    // Log out the error to the console
     log.error(error);
     return res.json({
       error: {
@@ -76,6 +76,5 @@ module.exports = (config) => {
       },
     });
   });
-
   return service;
 };
