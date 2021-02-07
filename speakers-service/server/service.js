@@ -14,6 +14,27 @@ module.exports = (config) => {
   }
 };
 
+service.get('/list', (req, res, next) =>{
+  return next('Not implemented');
+});
+
+service.get('/list-short', (req, res, next) =>{
+  return next('Not implemented');
+});
+
+service.get('/names', (req, res, next) =>{
+  return next('Not implemented');
+});
+
+service.get('/speaker/:shortname', (req, res, next) =>{
+  return next('Not implemented');
+});
+
+service.get('/artwork/:shortname', (req, res, next) =>{
+  return next('Not implemented');
+});
+
+
 service.use((error, req, res, next) => {
   res.status(error.status || 500);
   log.error(error);
