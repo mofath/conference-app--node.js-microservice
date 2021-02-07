@@ -9,7 +9,7 @@ class SpeakersService {
   }
 
   async getNames() {
-    const { ip, port } = this.getService('speakers-service');
+    const { ip, port } = await this.getService('speakers-service');
     return this.callService({
       method: 'get',
       url: `http://${ip}:${port}/names`,
@@ -17,7 +17,7 @@ class SpeakersService {
   }
 
   async getListShort() {
-    const { ip, port } = this.getService('speakers-service');
+    const { ip, port } = await this.getService('speakers-service');
     return this.callService({
       method: 'get',
       url: `http://${ip}:${port}/list-short`,
@@ -25,7 +25,7 @@ class SpeakersService {
   }
 
   async getList() {
-    const { ip, port } = this.getService('speakers-service');
+    const { ip, port } = await this.getService('speakers-service');
     return this.callService({
       method: 'get',
       url: `http://${ip}:${port}/list`,
@@ -33,7 +33,7 @@ class SpeakersService {
   }
 
   async getAllArtwork() {
-    const { ip, port } = this.getService('speakers-service');
+    const { ip, port } = await this.getService('speakers-service');
     return this.callService({
       method: 'get',
       url: `http://${ip}:${port}/artwork`,
@@ -41,7 +41,7 @@ class SpeakersService {
   }
 
   async getSpeaker(shortname) {
-    const { ip, port } = this.getService('speakers-service');
+    const { ip, port } = await this.getService('speakers-service');
     return this.callService({
       method: 'get',
       url: `http://${ip}:${port}/speaker/${shortname}`,
@@ -49,7 +49,7 @@ class SpeakersService {
   }
 
   async getArtworkForSpeaker(shortname) {
-    const { ip, port } = this.getService('speakers-service');
+    const { ip, port } = await this.getService('speakers-service');
     return this.callService({
       method: 'get',
       url: `http://${ip}:${port}/artwork/${shortname}`,
