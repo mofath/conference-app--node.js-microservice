@@ -3,8 +3,9 @@
 const axios = require('axios');
 
 class SpeakersService {
-  constructor(datafile) {
-    this.datafile = datafile;
+  constructor({ serviceRegistryUrl, serviceVersionIdentifier }) {
+    this.serviceRegistryUrl = serviceRegistryUrl;
+    this.serviceVersionIdentifier = serviceVersionIdentifier;
   }
 
   async getNames() {
@@ -61,7 +62,7 @@ class SpeakersService {
   }
 
   async getService(servicename) {
-    const response = await axios.get(`http://localhost:3000/find/${servicename}`);
+    const response = await axios.get(`${this.serviceRegistryUrl}/find/${servicename}/${this.serviceVersionIdentifier}`);
     return response.data;
   }
 }
