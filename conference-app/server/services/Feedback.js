@@ -4,10 +4,12 @@ const axios = require('axios');
 const fs = require('fs');
 const crypto = require('crypto');
 const util = require('util');
+const amqplib = require('amqplib');
 
 const writeFile = util.promisify(fs.writeFile);
 
 const CircuitBreaker = require('../lib/CircuitBreaker');
+const sendMessageInFeedbackQueue = require('../queues/feedback-queue');
 
 const circuitBreaker = new CircuitBreaker();
 
@@ -19,9 +21,8 @@ class FeedbackService {
   }
 
   async addEntry(name, title, message) {
-    const data = await this.getData();
-    data.unshift({ name, title, message });
-    return writeFile(this.datafile, JSON.stringify(data));
+    const msg = JSON.stringify({ name, title, message });
+    return sendMessageInFeedbackQueue(msg);
   }
 
   async getList() {
@@ -34,7 +35,10 @@ class FeedbackService {
 
   async callService(requestOptions) {
     const parsedUrl = url.parse(requestOptions.url);
-    const cacheKey = crypto.createHash('md5').update(requestOptions.method + parsedUrl.path).digest('hex');
+    const cacheKey = crypto
+      .createHash('md5')
+      .update(requestOptions.method + parsedUrl.path)
+      .digest('hex');
 
     const result = await circuitBreaker.callService(requestOptions);
 
@@ -52,7 +56,9 @@ class FeedbackService {
   }
 
   async getService(servicename) {
-    const response = await axios.get(`${this.serviceRegistryUrl}/find/${servicename}/${this.serviceVersionIdentifier}`);
+    const response = await axios.get(
+      `${this.serviceRegistryUrl}/find/${servicename}/${this.serviceVersionIdentifier}`
+    );
     return response.data;
   }
 }

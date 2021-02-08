@@ -16,25 +16,31 @@ module.exports = (param) => {
 
   router.post('/', async (req, res, next) => {
     try {
-      const fbName = req.body.fbName.trim();
-      const fbTitle = req.body.fbTitle.trim();
-      const fbMessage = req.body.fbMessage.trim();
-      const feedbacklist = await feedback.getList();
-      if (!fbName || !fbTitle || !fbMessage) {
-        return res.json({
-          error: true,
-          fbName,
-          fbMessage,
-          fbTitle,
-          feedbacklist,
-        });
-      }
-      await feedback.addEntry(fbName, fbTitle, fbMessage);
+      const { fbName, fbTitle, fbMessage } = req.body;
+      const msg = JSON.stringify({ fbName, fbTitle, fbMessage });
+      await feedback.addEntry(msg);
       return res.json({ success: true });
     } catch (err) {
+      console.log(err);
       return next(err);
     }
   });
 
   return router;
 };
+
+// {
+//   'fbName': 'h1',
+//   'fbTitle': 'h2',
+//   'fbMessage':'h3'
+// }
+
+// if (!fbName || !fbTitle || !fbMessage) {
+//   return res.json({
+//     error: true,
+//     fbName,
+//     fbMessage,
+//     fbTitle,
+//     feedbacklist,
+//   });
+// }
