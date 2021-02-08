@@ -1,12 +1,7 @@
 /* eslint-disable class-methods-use-this */
 const url = require('url');
 const axios = require('axios');
-const fs = require('fs');
 const crypto = require('crypto');
-const util = require('util');
-const amqplib = require('amqplib');
-
-const writeFile = util.promisify(fs.writeFile);
 
 const CircuitBreaker = require('../lib/CircuitBreaker');
 const sendMessageInFeedbackQueue = require('../queues/feedback-queue');
