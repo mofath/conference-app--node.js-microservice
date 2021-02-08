@@ -3,6 +3,7 @@ const createError = require('http-errors');
 const bodyParser = require('body-parser');
 const configs = require('./config');
 const Speakers = require('./services/Speakers');
+const Feedback = require('./services/Feedback');
 const routes = require('./routes');
 
 const app = express();
@@ -10,6 +11,7 @@ const app = express();
 const config = configs[app.get('env')];
 
 const speakers = new Speakers(config);
+const feedback = new Feedback(config);
 
 if (app.get('env') === 'development') app.locals.pretty = true;
 
@@ -29,7 +31,11 @@ app.use(async (req, res, next) => {
   }
 });
 
-app.use('/', routes({ speakers }));
+
+app.use('/', routes({
+  speakers,
+  feedback,
+}));
 
 app.use((req, res, next) => next(createError(404, 'File not found')));
 
