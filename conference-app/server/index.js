@@ -20,6 +20,7 @@ app.locals.title = config.sitename;
 app.use(express.static('public'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use(async (req, res, next) => {
   try {
